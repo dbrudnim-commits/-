@@ -28,7 +28,7 @@ CONCLUSION_KEYWORDS = {
     '재활용': ['실천', '환경', '보호', '확인', '지구']
 }
 
-# --- [2. 테마별 텍스트 및 디자인 데이터 백업] ---
+# --- [2. 테마별 UI 및 피드백 텍스트 통합 DB (구조 일치화 완료)] ---
 THEME_DATA = {
     '남학생': {
         'page_title': "🦖🏎️ 국어 서논술형 크래시 배틀 룸",
@@ -109,8 +109,8 @@ THEME_DATA = {
         'fb_fail_q1': "⚠️ [엔진 과열] 장착한 무기와 설명 내용이 매칭되지 않아! 다시 튜닝해볼까?",
         'fb_pass_struct': "🔥 [임무 완료] 서론-본론-결론의 3단 전술 배치가 아주 깔끔하다!",
         'fb_fail_struct': "⚙️ [전술 수정] 글이 통째로 뭉쳐있어! 단락을 딱딱 나눠줘야 가독성 부스터가 켜져.",
-        'fb_pass_marker': "🔥 [임무 완료] 선택한 핵심 기술 파워가 본문 문장에 제대로 박혔어!",
-        'fb_fail_marker': "⚙️ [전술 수정] 본문에 핵심 표현이 안 보여! 시그니처 단어를 치트키처럼 써봐.",
+        'fb_pass_marker': "🔥 [임무 완료] 선택한 핵심 기술 '{m}' 파워가 본문 문장에 제대로 박혔어!",
+        'fb_fail_marker': "⚙️ [전술 수정] 본문에 '{m}'의 파워가 안 보여! 시그니처 단어를 치트키처럼 써봐.",
         'fb_pass_concl': "🔥 [임무 완료] 미션 요구사항인 '결론의 방향성'까지 멋지게 완파했다!",
         'fb_fail_concl': "⚙️ [전술 수정] 피니시 라인 부실! 조건이 요구한 핵심 마무리를 한 문장만 묵직하게 더 던져봐!",
         'empty_msg': "차량이 출발하지 않았어! (답안이 비어있음) 한 줄이라도 적고 엑셀을 밟아봐!"
@@ -193,16 +193,16 @@ THEME_DATA = {
         'fb_pass_q1': "✨ [솜씨 발휘 성공!] 와아! 설명 방법의 쓰임새와 뜻을 예쁘게 매칭하여 정답을 완성했어요.",
         'fb_fail_q1': "🌱 [다이어리 수정 중...] 골라준 방법과 적어준 이유가 살짝 어긋난 것 같아요. 가이드 노트를 다시 읽어볼까요?",
         'fb_pass_struct': "✨ [솜씨 발휘 성공!] 서론-본론-결론의 삼단 단락 구분이 무척이나 가지런하고 예쁩니다.",
-        'fb_fail_struct': "📝 [노트 수정 중...] 글이 한 덩어리로 뭉쳐 있어요! 서론 쓰고 사뿐히 엔터! 단락을 예쁘게 갈라보아요.",
-        'fb_pass_marker': "✨ [솜씨 발휘 성공!] 선택했던 설명 방법의 예쁜 힌트 표현들이 문장 안에 쏙쏙 잘 들어갔습니다.",
-        'fb_fail_marker': "📝 [노트 수정 중...] 본문에서 선택한 방법의 느낌이 잘 나지 않아요! 치트키 단어들을 문장 사이에 예쁘게 심어보아요.",
+        'fb_fail_struct': "📝 [노트 수정 중...] 글이 한 덩어리로 뭉쳐 있어요! 단락을 예쁘게 갈라보아요.",
+        'fb_pass_marker': "✨ [솜씨 발휘 성공!] 선택했던 설명 방법의 예쁜 힌트 표현들('{m}')이 문장 안에 쏙쏙 잘 들어갔습니다.",
+        'fb_fail_marker': "📝 [노트 수정 중...] 본문에서 선택한 방법('{m}')의 느낌이 잘 나지 않아요! 치트키 단어들을 문장 사이에 예쁘게 심어보아요.",
         'fb_pass_concl': "✨ [솜씨 발휘 성공!] 약속했던 맺음말의 다정한 생각과 방향성이 결론에 가득 차 있네요. 최고예요!",
-        'fb_fail_concl': "📝 [노트 수정 중...] 마지막 엔딩 문장이 아쉬워요! 조건이 속닥속닥 부탁한 소중한 생각(미래 기대/나의 의지)을 한 줄만 덧붙여봐요.",
-        'empty_msg': "아직 일기장에 아무 글도 적히지 않았어요! (답안이 비어있음) 다정한 마음을 담아 한 줄이라도 써보아요!"
+        'fb_fail_concl': "📝 [노트 수정 중...] 마지막 엔딩 문장이 아쉬워요! 조건이 속닥속닥 부탁한 소중한 생각을 한 줄만 덧붙여봐요.",
+        'empty_msg': "아기자기한 노트에 아직 아무 글도 적히지 않았어요! 소중한 마음을 담아 한 줄이라도 써보아요!"
     }
 }
 
-# --- [3. 채점 백엔드 범용 함수] ---
+# --- [3. 채점 백엔드 범용 함수 (버그 수정 완료)] ---
 def normalize_method(input_text):
     for standard_method, synonyms in METHOD_SYNONYMS.items():
         if any(syn in input_text for syn in synonyms):
@@ -213,7 +213,8 @@ def evaluate_q1(method_input, reason_input, active_theme):
     t_cfg = THEME_DATA[active_theme]
     method = normalize_method(method_input)
     if not method:
-        return False, None, "⚙️" if active_theme == '남학생' else "📝" + " 아직 설명 방법을 적지 않았거나 오타가 난 것 같아요!"
+        icon = "⚙️" if active_theme == '남학생' else "📝"
+        return False, None, f"{icon} 아직 설명 방법을 명확하게 적지 않았거나 오타가 난 것 같아요!"
     if any(kw in reason_input for kw in VALID_REASONS[method]):
         return True, method, t_cfg['fb_pass_q1']
     else:
@@ -230,10 +231,11 @@ def evaluate_q2(text, method1, method2, topic_key, active_theme):
         feedback.append(t_cfg['fb_fail_struct'])
         
     for m in [method1, method2]:
-        if m and any(marker in text for marker in TEXT_MARKERS[m]):
-            feedback.append(t_cfg['fb_pass_marker'].replace('{m}', m))
-        elif m:
-            feedback.append(t_cfg['fb_fail_marker'].replace('{m}', m))
+        if m:
+            if any(marker in text for marker in TEXT_MARKERS[m]):
+                feedback.append(t_cfg['fb_pass_marker'].replace('{m}', m))
+            else:
+                feedback.append(t_cfg['fb_fail_marker'].replace('{m}', m))
             
     conclusion_text = paragraphs[-1] if paragraphs else text
     if any(kw in conclusion_text for kw in CONCLUSION_KEYWORDS[topic_key]):
@@ -245,9 +247,6 @@ def evaluate_q2(text, method1, method2, topic_key, active_theme):
 
 # --- [4. Streamlit UI 메인 웹앱 설계] ---
 # 학생의 선택에 따라 테마를 스위칭할 수 있도록 상단 라디오 버튼 배치
-st.set_page_config(page_title="국어과 맞춤형 서논술형 워크북", layout="centered")
-
-# 🔥 핵심 터치: 테마 스위칭 버튼 탑재
 user_theme = st.radio(
     "🎨 나의 맞춤 공부방 스타일을 골라보세요!",
     ["♂️ 남학생 전용 트랙 (공룡 & 레이싱카)", "♀️ 여학생 감성 카페 (다꾸 & 파스텔)"],
@@ -276,18 +275,18 @@ def render_study_page(topic_key):
     st.subheader(data['q1_title'])
     
     with st.expander(f"{data['q1_guide_title']} (클릭하여 힌트 열기)", expanded=False):
-        for hint in data['hints']['q1']:
+        for hint in data['hints']:
             st.write(hint)
             
     col1, col2 = st.columns(2)
     with col1:
         st.markdown(data['q1_box1'])
         m1 = st.text_input("설명 방법 이름", key=f"{active_theme}_{topic_key}_m1", placeholder="정의 / 대조 / 예시 / 분류 중 선택")
-        r1 = st.text_area("선택한 이유 서술하기", key=f"{active_theme}_{topic_key}_r1", placeholder="나만의 논리로 적어보아요.", height=80)
+        r1 = st.text_area("선택한 이유 서술하기", key=f"{active_theme}_{topic_key}_r1", placeholder="독자에게 왜 이 방법이 필요한지 서술하세요.", height=80)
     with col2:
         st.markdown(data['q1_box2'])
         m2 = st.text_input("설명 방법 이름 ", key=f"{active_theme}_{topic_key}_m2", placeholder="정의 / 대조 / 예시 / 분류 중 선택")
-        r2 = st.text_area("선택한 이유 서술하기 ", key=f"{active_theme}_{topic_key}_r2", placeholder="나만의 논리로 적어보아요.", height=80)
+        r2 = st.text_area("선택한 이유 서술하기 ", key=f"{active_theme}_{topic_key}_r2", placeholder="독자에게 왜 이 방법이 필요한지 서술하세요.", height=80)
         
     st.markdown("---")
     
@@ -298,7 +297,7 @@ def render_study_page(topic_key):
     st.markdown(data['cond_box'], unsafe_allow_html=True)
     
     with st.expander(f"{data['q2_guide_title']} (클릭하여 힌트 열기)", expanded=False):
-        for hint in data['hints']['q2_hints']:
+        for hint in data['q2_hints']:
             st.markdown(hint)
         st.caption("💡 위 가이드 박스의 질문들에 하나씩 답변을 다는 기분으로 글을 합치면 아주 완벽해요!")
 
@@ -321,7 +320,10 @@ def render_study_page(topic_key):
             
         with st.expander("🔍 문항 2 조건 완수 여부 분석", expanded=True):
             if not q2_text.strip():
-                st.error(cfg['empty_msg']) if active_theme == '남학생' else st.warning(cfg['empty_msg'])
+                if active_theme == '남학생':
+                    st.error(cfg['empty_msg'])
+                else:
+                    st.warning(cfg['empty_msg'])
             else:
                 feedbacks = evaluate_q2(q2_text, ext_m1, ext_m2, topic_key, active_theme)
                 for fb in feedbacks:
